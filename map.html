@@ -411,13 +411,14 @@ function legend(){
 
 /* ---------- 화면 ---------- */
 const cv=document.getElementById('view');const ctx=cv.getContext('2d');
-let W=0,H=0,dpr=1,s=1,ox=0,oy=0,fitS=1;
+let W=0,H=0,dpr=1,s=1,ox=0,oy=0,fitS=1,fitted=false;
 let hov=null,pin=null;
 function resize(){
   const r=cv.getBoundingClientRect();dpr=window.devicePixelRatio||1;
-  const first=!W;W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
-  const aw=W-BAND_L-16,ah=H-BAND_T-16;fitS=Math.min(aw,ah)/N;
-  if(first)fit();else draw();
+  if(r.width<2||r.height<2)return;          /* 아직 자리를 못 잡았으면 건너뛴다 */
+  W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  const aw=W-BAND_L-16,ah=H-BAND_T-16;fitS=Math.max(.05,Math.min(aw,ah)/N);
+  if(!fitted){fitted=true;fit()}else draw();   /* 처음 제대로 잰 순간에 맞춘다 */
 }
 function fit(){s=fitS;ox=BAND_L+8+(W-BAND_L-16-N*s)/2;oy=BAND_T+8+(H-BAND_T-16-N*s)/2;draw()}
 function clampView(){
@@ -604,6 +605,8 @@ document.getElementById('fRnd').onclick=()=>{fY.value=Math.random()*60|0;fM.valu
 
 new ResizeObserver(resize).observe(cv);
 resize();build();
+if(window.ResizeObserver)new ResizeObserver(()=>resize()).observe(cv);
+window.addEventListener('resize',resize);
 })();
 </script>
 </body>

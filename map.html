@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>여덟 글자 판 · 사주 518,400개 지도 — 720×720 한 장</title>
+<style>
+:root{
+  --paper:#faf8f3; --card:#fff; --ink:#191714; --ink2:#4d4842; --muted:#8b8378;
+  --rule:#e4ddcf; --line:#cfc5b2; --red:#b3261e; --blue:#2a5d8f; --green:#2e6b43;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:15px;line-height:1.65;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1320px;margin:0 auto;padding:28px 22px 80px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 28px;
+  padding-bottom:16px;border-bottom:2px solid var(--ink);margin-bottom:16px}
+.eyebrow{font-size:11.5px;letter-spacing:.18em;color:var(--red);font-weight:700}
+h1{font-size:28px;line-height:1.2;letter-spacing:-.03em;font-weight:800}
+.dek{color:var(--ink2);font-size:14px;max-width:62ch}
+.big{font-size:13px;color:var(--muted);margin-left:auto;text-align:right}
+.big b{display:block;font-size:22px;color:var(--ink);letter-spacing:-.02em}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:12px}
+.ctl{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
+.ctl label{font-weight:700;color:var(--ink)}
+select,button{font:inherit;font-size:13.5px;border:1px solid var(--line);background:#fff;
+  border-radius:7px;padding:5px 9px;color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--ink)}
+button.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.seg button{border:0;border-radius:0;border-right:1px solid var(--rule);padding:6px 12px}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--ink);color:#fff}
+.modeDesc{font-size:13px;color:var(--ink2);margin:-2px 0 10px;min-height:20px}
+
+.main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.stage{position:relative;background:var(--card);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+#view{display:block;width:100%;height:min(80vh,820px);min-height:420px;touch-action:none;cursor:crosshair}
+#view.drag{cursor:grabbing}
+.zoombar{position:absolute;right:12px;bottom:12px;display:flex;gap:6px}
+.zoombar button{width:34px;height:34px;padding:0;font-size:17px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.zoombar button.wide{width:auto;padding:0 11px;font-size:12.5px;font-weight:600}
+.status{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.93);border:1px solid var(--rule);
+  border-radius:8px;padding:5px 10px;font-size:12px;color:var(--ink2)}
+.status b{color:var(--ink)}
+.lv{display:flex;gap:4px;margin-top:3px}
+.lv span{font-size:11px;padding:1px 6px;border-radius:4px;background:#f0ebe0;color:var(--muted)}
+.lv span.on{background:var(--ink);color:#fff}
+
+aside{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
+.panel h3{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:700;margin-bottom:9px;display:flex;justify-content:space-between}
+.panel h3 .pinTag{color:var(--red);letter-spacing:.04em}
+.wonguk{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;text-align:center}
+.wonguk .hd{font-size:11.5px;color:var(--muted);font-weight:600}
+.ch{border-radius:7px;padding:5px 0 3px;line-height:1.1}
+.ch .h{font-size:25px;font-weight:700;font-family:"Noto Serif KR","Nanum Myeongjo",serif}
+.ch .k{font-size:11px;opacity:.85;margin-top:2px}
+.where{font-size:12.5px;color:var(--ink2);margin-top:10px;line-height:1.7}
+.where b{color:var(--ink)}
+.cells{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.cells .row{display:grid;grid-template-columns:30px 1fr 20px;align-items:center;gap:8px;font-size:13px}
+.cells .sq{display:flex;gap:3px}
+.cells .sq i{width:15px;height:15px;border-radius:3px;display:block}
+.cells .sq i.e{background:#f1ece1;border:1px dashed #d8cfbd}
+.cells .n{text-align:right;font-weight:700}
+.verdict{margin-top:10px;background:#f3efe4;border-radius:8px;padding:8px 11px;font-size:13px}
+.empty{color:var(--muted);font-size:13px}
+
+.legend{display:flex;flex-direction:column;gap:5px}
+.legend .it{display:grid;grid-template-columns:16px 1fr auto auto;gap:8px;align-items:center;font-size:13px}
+.legend .sw{width:16px;height:16px;border-radius:3px;border:1px solid rgba(0,0,0,.12)}
+.legend .c{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+.legend .p{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;width:46px;text-align:right}
+.legend .bar{grid-column:2/5;height:4px;background:#f0ebe0;border-radius:2px;margin:-2px 0 3px}
+.legend .bar i{display:block;height:100%;border-radius:2px}
+.legend .sum{font-size:12px;color:var(--muted);margin-top:4px;border-top:1px solid var(--rule);padding-top:6px}
+
+.find{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.find label{font-size:11.5px;color:var(--muted);font-weight:600;display:block;margin-bottom:2px}
+.find select{width:100%}
+.find .btns{grid-column:1/3;display:flex;gap:6px;margin-top:4px}
+.find .btns button{flex:1}
+
+.how{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.how div{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--ink2)}
+.how b.t{display:block;color:var(--ink);font-size:14.5px;margin-bottom:4px}
+.how .num{color:var(--red);font-weight:800;margin-right:6px}
+.note{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:110ch}
+.sexnote{margin-top:12px;background:#fff;border:1px solid var(--rule);border-left:4px solid var(--red);
+  border-radius:0 8px 8px 0;padding:13px 16px;font-size:13px;color:var(--ink2);max-width:112ch}
+.sexnote b{color:var(--ink)}
+.foot{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink2);max-width:112ch}
+.foot a{color:var(--blue)}
+.story{margin-top:26px;border-top:2px solid var(--ink);padding-top:18px;max-width:100ch}
+.story h2{font-size:19px;font-weight:800;margin:0 0 3px}
+.story .sub{font-size:12.5px;color:var(--muted);margin-bottom:15px}
+.story h3{font-size:15px;font-weight:700;margin:20px 0 5px;color:var(--ink)}
+.story h3 .s{color:var(--red);margin-right:7px}
+.story p{font-size:13.5px;color:var(--ink2);margin-bottom:9px;line-height:1.75}
+.story b{color:var(--ink)}
+.story ul{margin:4px 0 11px 18px;font-size:13.5px;color:var(--ink2)}
+.story li{margin-bottom:4px}
+.story .calc{font-family:ui-monospace,"Nanum Gothic Coding",monospace;font-size:12.5px;background:#f3efe4;
+  border-radius:6px;padding:10px 13px;margin:8px 0;color:var(--ink2);line-height:1.7}
+.story .calc b{color:var(--red)}
+.story table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0 14px}
+.story th,.story td{border:1px solid var(--rule);padding:6px 9px;text-align:left;vertical-align:top}
+.story th{background:#f3efe4;color:var(--ink2);font-weight:600}
+.story .cap{background:#f3efe4;border-radius:7px;padding:11px 14px;font-size:12.5px;color:var(--ink2);margin:10px 0}
+.story .cap b{color:var(--ink)}
+
+@media (max-width:980px){
+  .main{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr}
+  #view{height:72vh}
+  .big{margin-left:0;text-align:left}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="eyebrow">터프티 · 전체이자 디테일(MICRO / MACRO)</div>
+    <h1>사주 518,400개를 한 장에</h1>
+    <p class="dek">칸 하나가 사주 하나다. 큰 칸 60×60은 <b>년주 × 일주</b>, 그 안의 작은 칸 12×12는 <b>월 × 시</b>.
+      멀리서는 무늬가, 확대하면 여덟 글자가 보인다.</p>
+  </div>
+  <div class="big">60 × 12 × 60 × 12<b>= 720 × 720 = 518,400</b></div>
+</header>
+
+<div class="controls">
+  <div class="ctl"><label>무엇으로 칠할까</label>
+    <div class="seg" id="modeSeg">
+      <button data-m="raw" class="on">여덟 글자 그대로</button>
+      <button data-m="dom">가장 많은 오행</button>
+      <button data-m="dm">일간 오행</button>
+      <button data-m="count">한 오행의 개수</button>
+    </div>
+  </div>
+  <div class="ctl" id="elCtl" style="display:none"><label>오행</label>
+    <select id="elSel">
+      <option value="0">목(木)</option><option value="1">화(火)</option><option value="2">토(土)</option>
+      <option value="3">금(金)</option><option value="4">수(水)</option>
+    </select>
+  </div>
+</div>
+<p class="modeDesc" id="modeDesc"></p>
+
+<div class="main">
+  <div class="stage">
+    <canvas id="view"></canvas>
+    <div class="status" id="status"></div>
+    <div class="zoombar">
+      <button id="zin" title="확대">+</button>
+      <button id="zout" title="축소">−</button>
+      <button id="zfit" class="wide">전체 보기</button>
+    </div>
+  </div>
+
+  <aside>
+    <div class="panel">
+      <h3><span>사주 원국</span><span class="pinTag" id="pinTag"></span></h3>
+      <div id="detail"><p class="empty">지도 위에 마우스를 올리면 그 칸의 사주가 여기 뜬다. 클릭하면 고정된다.</p></div>
+    </div>
+    <div class="panel">
+      <h3><span>칸 세기 — 지도 전체</span></h3>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="panel">
+      <h3><span>내 사주 찾아가기</span></h3>
+      <div class="find">
+        <div><label>년주</label><select id="fY"></select></div>
+        <div><label>월(절기)</label><select id="fM"></select></div>
+        <div><label>일주</label><select id="fD"></select></div>
+        <div><label>시</label><select id="fH"></select></div>
+        <div class="btns"><button class="pri" id="fGo">찾아가기</button><button id="fRnd">아무거나</button></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="how">
+  <div><b class="t"><span class="num">1</span>멀리서 — 무늬 읽기</b>
+    전체 보기에서는 큰 칸 3,600개가 만드는 결이 보인다. "일간 오행"으로 바꾸면 세로 띠(일간이 10일마다 돈다)가,
+    "가장 많은 오행"에서는 년·일의 조합이 만드는 체크무늬가 드러난다.</div>
+  <div><b class="t"><span class="num">2</span>중간 — 큰 칸 하나</b>
+    큰 칸 하나 = 같은 년주·일주를 가진 사주 144개. 세로로 월(寅→丑), 가로로 시(子→亥)가 흐른다.
+    확대하면 위·왼쪽 눈금에 시·월이 나타난다.</div>
+  <div><b class="t"><span class="num">3</span>가까이 — 여덟 글자</b>
+    한 칸이 40px을 넘으면 칸 안에 사주가 글자로 쓰인다(위: 천간, 아래: 지지, 오른쪽부터 년·월·일·시).
+    클릭하면 오른쪽에 원국과 오행 개수가 고정된다.</div>
+</div>
+<p class="note">※ 겉으로 드러난 여덟 글자의 오행만 셌다(지장간·합충·계절 보정 없음). 월주는 년간이, 시주는 일간이 정하므로 60⁴이 아니라 518,400가지다.
+  이 지도는 "나올 수 있는 모든 경우"를 똑같이 한 칸씩 놓은 것이라, 실제로 태어나는 사람 수의 분포와는 다르다.
+  월은 절기 기준(寅월 = 입춘부터)이다. 오행 색은 전통 오방색을 따랐고, 금(흰색)은 종이 위에서 보이도록 은회색으로 바꿨다.<br>
+  <b>이 판은 여덟 글자를 줄이지 않는다.</b> 한 칸을 4(시·일·월·년) × 2(천간·지지)로 쪼개 글자마다 제 오행 색을 칠한다 —
+  전체 2,880 × 1,440, 픽셀 하나가 글자 하나다. 축소하면 픽셀이 모자라 가장 많은 오행 색으로 요약된다.</p>
+
+<div class="sexnote">
+  <b>성별은 왜 지도에 없나</b> — 사주 여덟 글자(원국)는 <b>남녀가 똑같다.</b> 같은 시각에 태어나면 원국이 동일하다.
+  성별이 바꾸는 것은 <b>대운(10년 운)의 진행 방향</b>뿐이다(양년생 남자·음년생 여자는 순행, 반대는 역행).
+  그래서 이 지도는 <b>원국 518,400가지</b>를 담고, 운의 전개를 가르는 <b>성별까지 포함하면 1,036,800가지</b>가 된다.
+  원국의 오행 색은 남녀가 같으므로 지도에는 칠하지 않고 글로만 밝힌다.
+  <br><span style="color:var(--muted)">검증 : 1983-10-11 사주(癸亥·癸亥·丁未·丙午)가 좌표 x522·y717(년주 癸亥×일주 丁未, 亥월·午시) 자리에 정확히 생성된다.</span>
+</div>
+
+<div class="story">
+  <h2>이 지도는 어떻게 만들어졌는가 — 제작 방법·과정</h2>
+  <div class="sub">논문 본문(연구방법·데이터 시각화)에 그대로 옮길 수 있도록, 이 한 장의 그림이 나온 과정을 단계별로 적는다.</div>
+
+  <h3><span class="s">출발점</span>51만 개를 한 장에 — "평면 탈출"과 "미크로·마크로"</h3>
+  <p>문제는 단순하다. 사주 원국은 <b>경우의 수가 518,400가지</b>다. 이 많은 것을 표나 목록으로는 결코 한눈에 보여줄 수 없다.
+    에드워드 터프티는 이런 상황을 <b>"평면 탈출(Escaping Flatland)"</b>이라 부른다 — 종이는 2차원이지만 정보는 그보다 높은 차원을 담아야 한다는 것.
+    그 해법으로 두 가지를 제시한다. ① 차원을 늘리고, ② <b>데이터 밀도를 높여라.</b> 또 하나, <b>"미크로·마크로 읽기(Micro/Macro Readings)"</b> —
+    멀리서 보면 전체 패턴이, 가까이 보면 낱낱의 세부가 보이게 하라. 이 지도는 그 두 원칙을 그대로 구현한 것이다.</p>
+
+  <h3><span class="s">1단계</span>경우의 수를 확정한다 — 왜 60⁴이 아니라 518,400인가</h3>
+  <p>네 기둥(년·월·일·시)이 각각 60갑자이니 얼핏 60⁴=12,960,000처럼 보인다. 그러나 사주 규칙상 <b>월간과 시간은 자유롭지 않다.</b>
+    월주의 천간은 <b>년간</b>이 정하고(월두법), 시주의 천간은 <b>일간</b>이 정한다(시두법). 그래서 월·시는 각각 12가지(지지)만 자유롭다.</p>
+  <div class="calc">년주 60 × 월지 12 × 일주 60 × 시지 12 = <b>518,400</b>가지<br>
+    = 720 × 720 → 정확히 <b>정사각형(720²)</b>으로 나누어떨어진다.</div>
+  <p>이 "720²"라는 성질이 결정적이었다. 한 변이 720인 <b>정사각 격자</b> 안에, 모든 사주를 겹치지도 빠지지도 않게 한 칸씩 놓을 수 있다는 뜻이기 때문이다.</p>
+
+  <h3><span class="s">2단계</span>좌표를 설계한다 — 칸 하나 = 사주 하나</h3>
+  <p>가로·세로축에 네 기둥을 나누어 실었다.</p>
+  <ul>
+    <li><b>세로(y) = 년주 × 12 + 월지</b> &nbsp;(0~719)</li>
+    <li><b>가로(x) = 일주 × 12 + 시지</b> &nbsp;(0~719)</li>
+  </ul>
+  <p>이렇게 하면 <b>12×12짜리 작은 블록</b> 하나가 "같은 년주·같은 일주"를 공유하는 144개 사주 묶음이 된다(그 안에서 월·시만 바뀐다).
+    축에는 간지 눈금을 달아, 확대하지 않아도 대략 어느 60갑자 구역인지 읽히게 했다. <b>칸 하나가 사주 하나</b>이고, 51만 8,400칸이 모여 한 장을 이룬다.</p>
+
+  <h3><span class="s">3단계</span>색을 입힌다 — 여덟 글자의 오행을 세어 인코딩</h3>
+  <p>빈 격자만으로는 밀도가 낮다. 각 칸(사주)의 <b>여덟 글자 오행을 집계</b>해 색으로 바꿨다(지장간·합충·계절 보정은 넣지 않은, 드러난 글자만).
+    터프티의 <b>"레이어링과 분리"</b> — 색은 데이터를 겹쳐 싣되 서로 간섭하지 않도록 쓴다. 색 기준은 네 가지로 바꿔 볼 수 있게 했다.</p>
+  <ul>
+    <li><b>A. 가장 많은 오행</b> — 그 사주에서 최다 오행의 색(동률이면 중립색)</li>
+    <li><b>B. 일간의 오행</b> — 본인을 상징하는 일간만의 색</li>
+    <li><b>C. 특정 오행의 개수</b> — 예: 火가 0~4개, 진할수록 많음</li>
+    <li><b>D. 오행이 몇 가지 들었나</b> — 1~5종(구족일수록 진함)</li>
+  </ul>
+  <p>오행 색은 <b>전통 오방색</b>(청·적·황·백·흑)을 따르되, 흰색(금)은 종이에서 사라지지 않도록 은회색으로 바꿨다.</p>
+
+  <h3><span class="s">4단계</span>미크로·마크로를 잇는다 — 하나의 그림, 두 가지 읽기</h3>
+  <p>마지막으로 <b>줌·팬·돋보기</b>를 붙였다. 멀리서 보면 51만 개가 만드는 <b>색의 지형(마크로)</b>이, 확대하면 칸 안의 <b>실제 여덟 글자(미크로)</b>가 보인다.
+    "내 사주 찾기"로 한글 간지를 입력하면 그 사주가 지도의 어느 자리에 있는지 표시된다 — 거대한 통계 속에서 <b>개인 한 점</b>을 집어내는 장치다.
+    이것이 사주가 혈액형·MBTI보다 훨씬 미세한 개인화 시스템임을 한 장으로 증명한다.</p>
+
+  <h3><span class="s">논문 그림</span>인쇄용 정지 이미지 4종</h3>
+  <p>화면용 인터랙티브 지도와 별개로, 논문·발표에 넣을 <b>고해상도 정지 그림 4종</b>을 같은 엔진으로 렌더링했다.</p>
+  <table>
+    <tr><th>구분</th><th>내용</th><th>용도</th></tr>
+    <tr><td><b>A. 오방색 전면</b></td><td>518,400칸을 '가장 많은 오행' 색으로 채운 전체 지도</td><td>표지·도입(마크로)</td></tr>
+    <tr><td><b>B. 흑백</b></td><td>같은 지도의 무채색 버전(인쇄·학술지 대비)</td><td>본문 삽도</td></tr>
+    <tr><td><b>C. 스몰 멀티플</b></td><td>색 기준을 바꾼 작은 지도 여러 장을 나란히</td><td>"무엇과 비교해?"(터프티)</td></tr>
+    <tr><td><b>D. 3단 확대</b></td><td>전체 → 블록 → 한 칸(여덟 글자)으로 단계 확대</td><td>미크로·마크로 증명</td></tr>
+  </table>
+  <div class="cap"><b>그림 캡션 예시(D)</b> — "518,400개의 사주를 한 평면에 배치한 뒤 같은 지점을 세 단계로 확대한 것.
+    전체에서는 오행의 지형이, 블록에서는 60갑자 구역이, 최종 한 칸에서는 한 사람의 여덟 글자가 드러난다."</div>
+
+  <h3><span class="s">읽히는 결과</span>그림이 말해 주는 것</h3>
+  <ul>
+    <li>오행은 고르게 퍼지지 않는다 — <b>토(土)가 평균 2.13개</b>로 가장 흔하고, 색 지형에도 황색 띠가 두드러진다.</li>
+    <li><b>토가 하나도 없는 사주는 약 7.7%</b>뿐 — 대부분의 사주에 토가 들어간다.</li>
+    <li><b>오행 다섯 가지가 모두 든(구족) 사주는 약 30.6%</b>. 나머지 약 70%는 어느 오행이 비어 있다.</li>
+    <li>한 가지 오행으로만 이뤄진 극단적 사주는 <b>단 21가지</b>(전체의 0.004%)로, 격자 모서리의 짙은 점들로 나타난다.</li>
+  </ul>
+
+  <h3><span class="s">한계</span>이 그림이 하지 않은 것</h3>
+  <p>① 드러난 여덟 글자만 셌다 — <b>지장간·합충·계절 보정은 반영하지 않았다.</b> ② 모든 경우를 한 칸씩 똑같이 놓았으므로
+    <b>실제 태어나는 사람의 분포가 아니다</b>(인구 통계가 아니라 '경우의 수 지도'다). ③ 성별은 원국을 바꾸지 않아 색으로 칠하지 않았고, 글로만 밝혔다(위 '성별은 왜 지도에 없나' 참조).
+    이 세 가지는 후속 연구에서 대운·지장간을 반영한 확장판으로 이어질 수 있다.</p>
+</div>
+
+<div class="foot">
+  <b>짝 자료(같은 폴더)</b> —
+  <a href="사주_개인화해상도_논증.html">사주=개인화 시스템 논증(혈액형·MBTI 대비)</a> ·
+  <a href="터프티_정보의시각화_정리.html">터프티 『정보의 시각화』 정리</a> ·
+  <a href="학위논문_통합_목차_구조.html">통합 박사학위논문 목차·구조</a>
+  <div style="margin-top:6px;color:var(--muted)">이 수정본 = 확대하면 칸 안에 실제 여덟 글자가 보이는 판(진짜 줌·팬·간지 눈금 포함).
+    기존 「사주_720격자_지도.html」은 돋보기 방식.</div>
+</div>
+
+</div>
+
+<script>
+(function(){
+const STEM='甲乙丙丁戊己庚辛壬癸', STEM_K='갑을병정무기경신임계';
+const BR='子丑寅卯辰巳午未申酉戌亥', BR_K='자축인묘진사오미신유술해';
+const SE=[0,0,1,1,2,2,3,3,4,4];             // 천간 → 오행
+const BE=[4,2,0,0,2,1,1,2,3,3,2,4];         // 지지 → 오행
+const EL=['목','화','토','금','수'], ELH=['木','火','土','金','水'];
+const ELC=['#3f8f5a','#c8372d','#d9a520','#a9adb6','#1f2430'];
+const ELDEEP=['#1f6b3a','#a3241b','#9a6f00','#4f5560','#1f2430'];
+const TIE='#e9e1cf', PAPER='#fbf9f4';
+const MONTH_TERM=['입춘','경칩','청명','입하','망종','소서','입추','백로','한로','입동','대설','소한'];
+const HOUR_T=['23–01','01–03','03–05','05–07','07–09','09–11','11–13','13–15','15–17','17–19','19–21','21–23'];
+const N=720, BAND_T=40, BAND_L=62;
+
+const gz=i=>STEM[i%10]+BR[i%12];
+const gzK=i=>STEM_K[i%10]+BR_K[i%12];
+function hex(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function mix(a,b,t){const A=hex(a),B=hex(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')}
+function lum(h){const [r,g,b]=hex(h);return (0.299*r+0.587*g+0.114*b)/255}
+
+function pillars(x,y){
+  const Y=(y/12)|0,m=y%12,D=(x/12)|0,h=x%12,ys=Y%10,ds=D%10;
+  return {Y,m,D,h,
+    year:[ys,Y%12], month:[((ys%5)*2+2+m)%10,(m+2)%12],
+    day:[ds,D%12], hour:[((ds%5)*2+h)%10,h]};
+}
+function elCounts(p){
+  const c=[0,0,0,0,0];
+  for(const k of ['year','month','day','hour']){c[SE[p[k][0]]]++;c[BE[p[k][1]]]++}
+  return c;
+}
+
+/* ---------- 모드 정의 ---------- */
+let mode='raw', selEl=0;
+const MODES={
+  raw:{desc:'한 칸을 4 × 2로 쪼개 여덟 글자를 그대로 칠한다. 줄이는 것이 없다. 축소하면 픽셀이 모자라 가장 많은 오행 색으로 요약된다.',
+    cats:()=>EL.map((e,i)=>({name:`${e}(${ELH[i]}) 글자`,color:ELC[i]})),
+    cls:(c)=>{let mx=-1,mi=-1,tie=false;for(let i=0;i<5;i++){if(c[i]>mx){mx=c[i];mi=i;tie=false}else if(c[i]===mx)tie=true}return tie?5:mi},
+    verdict:(c)=>{const o=EL.map((e,i)=>`${e} ${c[i]}`).filter((_,i)=>c[i]).join(' · ');return `여덟 글자 그대로 — ${o}`}},
+  dom:{desc:'여덟 글자 중 가장 많이 나온 오행의 색. 1등이 둘 이상이면 베이지(동률).',
+    cats:()=>EL.map((e,i)=>({name:`${e}(${ELH[i]})가 가장 많음`,color:ELC[i]})).concat([{name:'동률 (1등이 둘 이상)',color:TIE}]),
+    cls:(c)=>{let mx=-1,mi=-1,tie=false;for(let i=0;i<5;i++){if(c[i]>mx){mx=c[i];mi=i;tie=false}else if(c[i]===mx)tie=true}return tie?5:mi},
+    verdict:(c)=>{const k=MODES.dom.cls(c);return k===5?'1등 오행이 둘 이상 — 동률':`가장 많은 오행: <b>${EL[k]}(${ELH[k]})</b> ${c[k]}개`}},
+  dm:{desc:'일간(태어난 날의 천간)의 오행 색. 일간은 일주를 따라 10칸 주기로 돌아 세로 띠가 생긴다.',
+    cats:()=>EL.map((e,i)=>({name:`일간이 ${e}(${ELH[i]})`,color:ELC[i]})),
+    cls:(c,p)=>SE[p.day[0]],
+    verdict:(c,p)=>`일간: <b>${STEM[p.day[0]]}(${STEM_K[p.day[0]]})</b> — ${EL[SE[p.day[0]]]}(${ELH[SE[p.day[0]]]})`},
+  count:{desc:'고른 오행이 여덟 글자 중 몇 개인지. 흰 칸(0개)은 그 오행이 아예 없는 사주.',
+    cats:()=>Array.from({length:9},(_,v)=>({name:v===0?`${EL[selEl]} 없음 (0개)`:`${EL[selEl]} ${v}개`,color:v===0?PAPER:mix('#f3efe4',ELDEEP[selEl],Math.min(1,0.18+v/5.2))})),
+    cls:(c)=>c[selEl],
+    verdict:(c)=>`${EL[selEl]}(${ELH[selEl]}): <b>${c[selEl]}개</b>${c[selEl]===0?' — 없음':''}`}
+};
+
+/* ---------- 720×720 원본 이미지 ---------- */
+const off=document.createElement('canvas');off.width=off.height=N;
+const octx=off.getContext('2d');const img=octx.createImageData(N,N);
+/* 여덟 글자 그대로 — 한 칸을 4(시·일·월·년) × 2(천간·지지)로 쪼갠다 */
+const offRaw=document.createElement('canvas');offRaw.width=N*4;offRaw.height=N*2;
+const rawCtx=offRaw.getContext('2d');const rawImg=rawCtx.createImageData(N*4,N*2);
+const RAW_S=6;                       // 한 칸이 이보다 크면 여덟 글자를 그대로 보여 준다
+let rawCount=[0,0,0,0,0];            // 글자 4,147,200개의 오행 분포
+function buildRaw(){
+  const rgb=ELC.map(hex), d=rawImg.data, Wq=N*4;
+  for(let y=0;y<N;y++){
+    const Y=(y/12)|0,m=y%12,ys=Y%10,yb=Y%12,ms=((ys%5)*2+2+m)%10,mb=(m+2)%12;
+    for(let x=0;x<N;x++){
+      const D2=(x/12)|0,h=x%12,ds=D2%10,db=D2%12,hs=((ds%5)*2+h)%10;
+      const st=[hs,ds,ms,ys], br=[h,db,mb,yb];   // 시 · 일 · 월 · 년
+      for(let i=0;i<4;i++){
+        const es=SE[st[i]], eb=BE[br[i]];
+        rawCount[es]++;rawCount[eb]++;
+        let o=((y*2)*Wq+(x*4+i))*4, c=rgb[es];
+        d[o]=c[0];d[o+1]=c[1];d[o+2]=c[2];d[o+3]=255;
+        o=((y*2+1)*Wq+(x*4+i))*4; c=rgb[eb];
+        d[o]=c[0];d[o+1]=c[1];d[o+2]=c[2];d[o+3]=255;
+      }
+    }
+  }
+  rawCtx.putImageData(rawImg,0,0);
+}
+buildRaw();
+let cats=[],catCount=[];
+function build(){
+  const M=MODES[mode];const SUM=(mode==='raw')?MODES.dom:M;
+  cats=SUM.cats();catCount=new Array(cats.length).fill(0);
+  const rgb=cats.map(c=>hex(c.color));const d=img.data;const c=[0,0,0,0,0];
+  for(let y=0;y<N;y++){
+    const Y=(y/12)|0,m=y%12,ys=Y%10,yb=Y%12,ms=((ys%5)*2+2+m)%10,mb=(m+2)%12;
+    for(let x=0;x<N;x++){
+      const D=(x/12)|0,h=x%12,ds=D%10,db=D%12,hs=((ds%5)*2+h)%10;
+      c[0]=c[1]=c[2]=c[3]=c[4]=0;
+      c[SE[ys]]++;c[BE[yb]]++;c[SE[ms]]++;c[BE[mb]]++;c[SE[ds]]++;c[BE[db]]++;c[SE[hs]]++;c[BE[h]]++;
+      const k=SUM.cls(c,{day:[ds,db]});catCount[k]++;
+      const o=(y*N+x)*4,col=rgb[k];d[o]=col[0];d[o+1]=col[1];d[o+2]=col[2];d[o+3]=255;
+    }
+  }
+  octx.putImageData(img,0,0);
+  document.getElementById('modeDesc').textContent=M.desc;
+  legend();draw();showDetail();
+}
+function legend(){
+  const el=document.getElementById('legend');
+  if(mode==='raw'){
+    const tot=N*N*8,mx=Math.max(...rawCount);let h='';
+    EL.forEach((e,i)=>{h+=`<div class="it"><span class="sw" style="background:${ELC[i]}"></span><span>${e}(${ELH[i]}) 글자</span>
+      <span class="c">${rawCount[i].toLocaleString('ko-KR')}</span><span class="p">${(rawCount[i]/tot*100).toFixed(1)}%</span>
+      <div class="bar"><i style="width:${rawCount[i]/mx*100}%;background:${ELC[i]}"></i></div></div>`});
+    h+=`<div class="sum">글자 합계 ${tot.toLocaleString('ko-KR')}개 · 사주 ${(N*N).toLocaleString('ko-KR')}개 × 8글자<br>
+        줄이지 않고 전부 칠한다</div>`;
+    el.innerHTML=h;return;
+  }
+  const total=N*N;let html='';let mx=Math.max(...catCount);
+  cats.forEach((c,i)=>{if(!catCount[i])return;
+    html+=`<div class="it"><span class="sw" style="background:${c.color}"></span><span>${c.name}</span>
+      <span class="c">${catCount[i].toLocaleString('ko-KR')}</span><span class="p">${(catCount[i]/total*100).toFixed(1)}%</span>
+      <div class="bar"><i style="width:${catCount[i]/mx*100}%;background:${c.color===PAPER||c.color===TIE?'#cfc5b2':c.color}"></i></div></div>`});
+  const zero=cats.map((c,i)=>catCount[i]?null:c.name).filter(Boolean);
+  html+=`<div class="sum">합계 ${total.toLocaleString('ko-KR')}칸${zero.length&&mode==='count'?' · 나올 수 없는 경우: '+zero.map(z=>z.replace(EL[selEl]+' ','')).join(', '):''}</div>`;
+  el.innerHTML=html;
+}
+
+/* ---------- 화면 ---------- */
+const cv=document.getElementById('view');const ctx=cv.getContext('2d');
+let W=0,H=0,dpr=1,s=1,ox=0,oy=0,fitS=1;
+let hov=null,pin=null;
+function resize(){
+  const r=cv.getBoundingClientRect();dpr=window.devicePixelRatio||1;
+  const first=!W;W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  const aw=W-BAND_L-16,ah=H-BAND_T-16;fitS=Math.min(aw,ah)/N;
+  if(first)fit();else draw();
+}
+function fit(){s=fitS;ox=BAND_L+8+(W-BAND_L-16-N*s)/2;oy=BAND_T+8+(H-BAND_T-16-N*s)/2;draw()}
+function clampView(){
+  const mn=BAND_L+40-N*s, mx=W-40;ox=Math.min(mx,Math.max(mn,ox));
+  const mny=BAND_T+40-N*s, mxy=H-40;oy=Math.min(mxy,Math.max(mny,oy));
+}
+function zoomAt(f,cx,cy){
+  const ns=Math.min(110,Math.max(fitS*0.8,s*f));
+  ox=cx-(cx-ox)*(ns/s);oy=cy-(cy-oy)*(ns/s);s=ns;clampView();draw();
+}
+function centerOn(x,y,ns){s=ns;ox=(BAND_L+W)/2-(x+.5)*s;oy=(BAND_T+H)/2-(y+.5)*s;clampView();draw()}
+
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  ctx.imageSmoothingEnabled=false;
+  const RAWVIEW=(mode==='raw'&&s>=RAW_S);
+  ctx.drawImage(RAWVIEW?offRaw:off,ox,oy,N*s,N*s);
+  const x0=Math.max(0,Math.floor((BAND_L-ox)/s)),x1=Math.min(N-1,Math.floor((W-ox)/s));
+  const y0=Math.max(0,Math.floor((BAND_T-oy)/s)),y1=Math.min(N-1,Math.floor((H-oy)/s));
+  const B=12*s;
+  // 작은 칸 선
+  if(s>=12){
+    ctx.strokeStyle='rgba(25,23,20,.13)';ctx.lineWidth=1;ctx.beginPath();
+    for(let x=x0;x<=x1+1;x++){const X=Math.round(ox+x*s)+.5;ctx.moveTo(X,Math.max(oy,BAND_T));ctx.lineTo(X,Math.min(oy+N*s,H))}
+    for(let y=y0;y<=y1+1;y++){const Y=Math.round(oy+y*s)+.5;ctx.moveTo(Math.max(ox,BAND_L),Y);ctx.lineTo(Math.min(ox+N*s,W),Y)}
+    ctx.stroke();
+  }
+  // 큰 칸 선
+  if(B>=7){
+    ctx.strokeStyle=s>=12?'rgba(25,23,20,.55)':'rgba(25,23,20,'+Math.min(.28,(B-7)/40+.08)+')';
+    ctx.lineWidth=s>=12?1.5:1;ctx.beginPath();
+    const bx0=Math.floor(x0/12),bx1=Math.floor(x1/12)+1,by0=Math.floor(y0/12),by1=Math.floor(y1/12)+1;
+    for(let b=bx0;b<=bx1;b++){const X=Math.round(ox+b*B)+.5;ctx.moveTo(X,Math.max(oy,BAND_T));ctx.lineTo(X,Math.min(oy+N*s,H))}
+    for(let b=by0;b<=by1;b++){const Y=Math.round(oy+b*B)+.5;ctx.moveTo(Math.max(ox,BAND_L),Y);ctx.lineTo(Math.min(ox+N*s,W),Y)}
+    ctx.stroke();
+  }
+  // 칸 안 글자
+  if(s>=40){
+    const fs=Math.min(19,Math.floor(s/4.6));
+    ctx.font=`600 ${fs}px "Noto Serif KR","Nanum Myeongjo",serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    const d=img.data;
+    const ink=L=>L<.5?'rgba(255,255,255,.95)':'rgba(25,23,20,.88)';
+    for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){
+      const p=pillars(x,y);const order=['hour','day','month','year'];
+      const cx=ox+x*s,cy=oy+y*s,cw=s/4;
+      const ty=RAWVIEW?s*.25:s*.33, by=RAWVIEW?s*.75:s*.70;
+      let flat=null;
+      if(!RAWVIEW){const o=(y*N+x)*4;flat=ink((0.299*d[o]+0.587*d[o+1]+0.114*d[o+2])/255)}
+      order.forEach((k,i)=>{
+        ctx.fillStyle=flat||ink(lum(ELC[SE[p[k][0]]]));
+        ctx.fillText(STEM[p[k][0]],cx+cw*(i+.5),cy+ty);
+        ctx.fillStyle=flat||ink(lum(ELC[BE[p[k][1]]]));
+        ctx.fillText(BR[p[k][1]],cx+cw*(i+.5),cy+by);
+      });
+    }
+  }
+  // 강조: 마우스 칸, 고정 칸
+  const mark=(c,col,w)=>{
+    if(!c)return;
+    const bx=ox+Math.floor(c.x/12)*B,by=oy+Math.floor(c.y/12)*B;
+    ctx.lineWidth=w;ctx.strokeStyle=col;
+    if(B>=5)ctx.strokeRect(bx,by,B,B);
+    if(s>=5)ctx.strokeRect(ox+c.x*s,oy+c.y*s,s,s);
+    else{ctx.beginPath();ctx.arc(ox+(c.x+.5)*s,oy+(c.y+.5)*s,9,0,Math.PI*2);ctx.stroke()}
+  };
+  mark(hov,'rgba(25,23,20,.85)',1.5);
+  mark(pin,'#b3261e',2.5);
+
+  // 눈금 띠
+  ctx.fillStyle='#faf8f3';ctx.fillRect(0,0,W,BAND_T);ctx.fillRect(0,0,BAND_L,H);
+  ctx.strokeStyle='#e4ddcf';ctx.lineWidth=1;ctx.beginPath();
+  ctx.moveTo(0,BAND_T+.5);ctx.lineTo(W,BAND_T+.5);ctx.moveTo(BAND_L+.5,0);ctx.lineTo(BAND_L+.5,H);ctx.stroke();
+  ctx.save();ctx.beginPath();ctx.rect(BAND_L,0,W-BAND_L,BAND_T);ctx.clip();
+  axisTop(B,x0,x1);ctx.restore();
+  ctx.save();ctx.beginPath();ctx.rect(0,BAND_T,BAND_L,H-BAND_T);ctx.clip();
+  axisLeft(B,y0,y1);ctx.restore();
+  ctx.fillStyle='#8b8378';ctx.font='600 10.5px system-ui,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+  ctx.fillText('↓년주',6,13);ctx.fillText('일주→',6,28);
+  status();
+}
+function step(B){for(const n of [1,2,3,5,10,15,30,60])if(n*B>=30)return n;return 60}
+function axisTop(B,x0,x1){
+  const n=step(B);const b0=Math.floor(x0/12),b1=Math.floor(x1/12);
+  ctx.textBaseline='middle';ctx.font='700 12px "Noto Serif KR",serif';ctx.fillStyle='#191714';
+  for(let b=b0;b<=b1;b++){if(b%n)continue;const X=ox+b*B;
+    ctx.textAlign=n===1?'center':'left';ctx.fillText(gz(b),n===1?X+B/2:X+2,12)}
+  if(s>=12){ctx.font='500 11px "Noto Serif KR",serif';ctx.fillStyle='#4d4842';ctx.textAlign='center';
+    for(let x=x0;x<=x1;x++)ctx.fillText(BR[x%12],ox+(x+.5)*s,30)}
+  else{ctx.font='500 10.5px system-ui,sans-serif';ctx.fillStyle='#8b8378';ctx.textAlign='left';ctx.fillText('큰 칸 = 일주 60개',BAND_L+6,30)}
+}
+function axisLeft(B,y0,y1){
+  const n=step(B);const b0=Math.floor(y0/12),b1=Math.floor(y1/12);
+  ctx.textBaseline='middle';ctx.font='700 12px "Noto Serif KR",serif';ctx.fillStyle='#191714';ctx.textAlign='left';
+  for(let b=b0;b<=b1;b++){if(b%n)continue;const Y=oy+b*B;ctx.fillText(gz(b),5,n===1?Y+B/2:Y+8)}
+  if(s>=12){ctx.font='500 11px "Noto Serif KR",serif';ctx.fillStyle='#4d4842';ctx.textAlign='center';
+    for(let y=y0;y<=y1;y++)ctx.fillText(BR[(y%12+2)%12],48,oy+(y+.5)*s)}
+}
+function status(){
+  const lv=s*12<7?0:(s<12?1:(s<40?2:3));
+  const names=['무늬','큰 칸','작은 칸','여덟 글자'];
+  document.getElementById('status').innerHTML=
+    `확대 <b>×${(s/fitS).toFixed(1)}</b> · 사주 한 칸 = <b>${s<1?s.toFixed(2):s.toFixed(1)}px</b>`+
+    `<div class="lv">${names.map((n,i)=>`<span class="${i===lv?'on':''}">${n}</span>`).join('')}</div>`;
+}
+
+/* ---------- 상세 패널 ---------- */
+function chip(st,isStem){
+  const e=isStem?SE[st]:BE[st];const bg=ELC[e];const fg=lum(bg)<.55?'#fff':'#191714';
+  return `<div class="ch" style="background:${bg};color:${fg}"><div class="h">${isStem?STEM[st]:BR[st]}</div><div class="k">${isStem?STEM_K[st]:BR_K[st]} · ${EL[e]}</div></div>`;
+}
+function showDetail(){
+  const c=hov||pin;const el=document.getElementById('detail');
+  document.getElementById('pinTag').textContent=pin&&(!hov||(hov.x===pin.x&&hov.y===pin.y))?'● 고정됨':'';
+  if(!c){el.innerHTML='<p class="empty">지도 위에 마우스를 올리면 그 칸의 사주가 여기 뜬다. 클릭하면 고정된다.</p>';return}
+  const p=pillars(c.x,c.y);const cnt=elCounts(p);
+  const ord=['hour','day','month','year'],hd=['시주','일주','월주','년주'];
+  let h='<div class="wonguk">'+hd.map(t=>`<div class="hd">${t}</div>`).join('');
+  h+=ord.map(k=>chip(p[k][0],true)).join('')+ord.map(k=>chip(p[k][1],false)).join('')+'</div>';
+  const no=c.y*N+c.x+1;
+  h+=`<div class="where">큰 칸: <b>${gz(p.Y)}년 × ${gz(p.D)}일</b> (행 ${p.Y+1}, 열 ${p.D+1})<br>
+     작은 칸: <b>${BR[(p.m+2)%12]}월</b>(${MONTH_TERM[p.m]}~) × <b>${BR[p.h]}시</b>(${HOUR_T[p.h]})<br>
+     위치: x ${c.x}, y ${c.y} · <b>${no.toLocaleString('ko-KR')}</b>번째 / 518,400</div>`;
+  h+='<div class="cells" style="margin-top:12px">'+EL.map((e,i)=>{
+    let sq='';for(let j=0;j<8;j++)sq+=j<cnt[i]?`<i style="background:${ELC[i]}"></i>`:(j<4?'<i class="e"></i>':'');
+    return `<div class="row"><span>${e}${ELH[i]}</span><span class="sq">${sq}</span><span class="n">${cnt[i]}</span></div>`}).join('')+'</div>';
+  h+=`<div class="verdict">${MODES[mode].verdict(cnt,p)}</div>`;
+  el.innerHTML=h;
+}
+
+/* ---------- 입력 ---------- */
+const ptrs=new Map();let downAt=null,moved=false,pinch=null;
+function cellAt(mx,my){
+  if(mx<BAND_L||my<BAND_T)return null;
+  const x=Math.floor((mx-ox)/s),y=Math.floor((my-oy)/s);
+  return (x>=0&&y>=0&&x<N&&y<N)?{x,y}:null;
+}
+function pos(e){const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]}
+cv.addEventListener('pointerdown',e=>{
+  cv.setPointerCapture(e.pointerId);const [x,y]=pos(e);ptrs.set(e.pointerId,[x,y]);
+  if(ptrs.size===1){downAt=[x,y,ox,oy];moved=false}
+  if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1])};moved=true}
+});
+cv.addEventListener('pointermove',e=>{
+  const [x,y]=pos(e);
+  if(ptrs.has(e.pointerId))ptrs.set(e.pointerId,[x,y]);
+  if(ptrs.size===2&&pinch){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);
+    zoomAt(d/pinch.d,(a[0]+b[0])/2,(a[1]+b[1])/2);pinch.d=d;return}
+  if(ptrs.size===1&&downAt){
+    const dx=x-downAt[0],dy=y-downAt[1];
+    if(Math.abs(dx)+Math.abs(dy)>4){moved=true;cv.classList.add('drag')}
+    if(moved){ox=downAt[2]+dx;oy=downAt[3]+dy;clampView();draw();return}
+  }
+  const c=cellAt(x,y);
+  if((c&&(!hov||c.x!==hov.x||c.y!==hov.y))||(!c&&hov)){hov=c;draw();showDetail()}
+});
+function up(e){
+  const [x,y]=pos(e);
+  if(ptrs.size===1&&!moved){const c=cellAt(x,y);pin=c&&pin&&c.x===pin.x&&c.y===pin.y?null:c;if(pin)syncFind(pin);draw();showDetail()}
+  ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;if(!ptrs.size){downAt=null;cv.classList.remove('drag')}
+}
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+cv.addEventListener('pointerleave',()=>{if(!ptrs.size&&hov){hov=null;draw();showDetail()}});
+cv.addEventListener('wheel',e=>{e.preventDefault();const [x,y]=pos(e);zoomAt(Math.exp(-e.deltaY*0.0018),x,y)},{passive:false});
+document.getElementById('zin').onclick=()=>zoomAt(2,(BAND_L+W)/2,(BAND_T+H)/2);
+document.getElementById('zout').onclick=()=>zoomAt(.5,(BAND_L+W)/2,(BAND_T+H)/2);
+document.getElementById('zfit').onclick=fit;
+
+document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.toggle('on',x===b));
+  mode=b.dataset.m;document.getElementById('elCtl').style.display=mode==='count'?'':'none';build();
+});
+document.getElementById('elSel').onchange=e=>{selEl=+e.target.value;build()};
+
+// 찾아가기
+const fY=document.getElementById('fY'),fM=document.getElementById('fM'),fD=document.getElementById('fD'),fH=document.getElementById('fH');
+for(let i=0;i<60;i++){fY.add(new Option(`${gz(i)} ${gzK(i)}`,i));fD.add(new Option(`${gz(i)} ${gzK(i)}`,i))}
+for(let m=0;m<12;m++)fM.add(new Option(`${BR[(m+2)%12]}월 (${MONTH_TERM[m]}~)`,m));
+for(let h=0;h<12;h++)fH.add(new Option(`${BR[h]}시 (${HOUR_T[h]})`,h));
+function syncFind(c){fY.value=(c.y/12)|0;fM.value=c.y%12;fD.value=(c.x/12)|0;fH.value=c.x%12}
+function go(){const x=(+fD.value)*12+(+fH.value),y=(+fY.value)*12+(+fM.value);pin={x,y};hov=null;centerOn(x,y,Math.max(s,56));showDetail()}
+document.getElementById('fGo').onclick=go;
+document.getElementById('fRnd').onclick=()=>{fY.value=Math.random()*60|0;fM.value=Math.random()*12|0;fD.value=Math.random()*60|0;fH.value=Math.random()*12|0;go()};
+
+new ResizeObserver(resize).observe(cv);
+resize();build();
+})();
+</script>
+</body>
+</html>

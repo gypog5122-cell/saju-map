@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기말 프로젝트 계획 — 사주는 개인화 시스템이다</title>
+<style>
+:root{
+  --paper:#faf8f3; --card:#fff; --ink:#191714; --ink2:#4d4842; --muted:#8b8378;
+  --rule:#e4ddcf; --line:#cfc5b2; --red:#b3261e; --blue:#2a5d8f; --gold:#b8860b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:15.5px;line-height:1.72;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:44px 26px 90px}
+
+header{border-bottom:2px solid var(--ink);padding-bottom:20px;margin-bottom:26px}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--red);font-weight:700;margin-bottom:9px}
+h1{font-size:31px;line-height:1.24;letter-spacing:-.03em;font-weight:800}
+.dek{font-size:15.5px;color:var(--ink2);margin-top:9px;max-width:70ch}
+.meta{margin-top:16px;font-size:13px;color:var(--muted)}
+.stage{display:inline-block;background:#fff3cd;border:1px solid #e0c97a;border-radius:6px;
+  padding:3px 10px;font-size:12.5px;font-weight:700;color:#7a5c00;margin-top:12px}
+
+h2{font-size:12px;letter-spacing:.18em;color:var(--red);font-weight:700;margin:40px 0 10px;
+  padding-top:18px;border-top:1px solid var(--line)}
+h2:first-of-type{border-top:0;padding-top:0;margin-top:0}
+p{margin-bottom:11px;max-width:72ch}
+b{font-weight:700}
+ul,ol{margin:0 0 13px 19px;max-width:72ch}
+li{margin-bottom:6px}
+a{color:var(--blue)}
+
+.msg{background:var(--ink);color:#fff;border-radius:12px;padding:24px 28px;margin:4px 0 16px}
+.msg .lab{font-size:11px;letter-spacing:.18em;color:#d9b65a;font-weight:700;margin-bottom:9px}
+.msg .one{font-size:21px;font-weight:800;letter-spacing:-.025em;line-height:1.5}
+.msg .one em{font-style:normal;color:#ffd978}
+.msg .one s{color:#8b8378;text-decoration-thickness:2px}
+.msg .lad{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
+.msg .lad div{background:rgba(255,255,255,.09);border-radius:8px;padding:7px 13px;font-size:13px;color:#e8e3d7}
+.msg .lad b{color:#fff;font-size:16px;letter-spacing:-.02em}
+.msg .lad div.hi{background:var(--red)}
+
+.box{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--line);
+  border-radius:0 10px 10px 0;padding:17px 21px;margin:14px 0}
+.box.red{border-left-color:var(--red)}
+.box ul{margin:8px 0 0 18px}
+.box li{margin-bottom:5px}
+.calc{font-family:ui-monospace,"Cascadia Mono","Nanum Gothic Coding",monospace;
+  font-size:13px;background:#f3efe4;border-radius:8px;padding:12px 16px;margin:10px 0;
+  line-height:2;color:var(--ink2)}
+.calc b{color:var(--ink)}
+.calc .big{font-size:15px;font-weight:700;color:var(--red)}
+.box h4{font-size:15px;font-weight:700;margin-bottom:5px}
+.box p:last-child{margin-bottom:0}
+
+.dgm{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px 20px 14px;margin:14px 0 20px}
+.dgm h4{font-size:15.5px;font-weight:800;margin-bottom:2px}
+.dgm .cap{font-size:12.5px;color:var(--muted);margin-bottom:13px}
+.dgm svg{width:100%;height:auto;display:block}
+.dgm .read{font-size:13px;color:var(--ink2);margin-top:12px;padding-top:10px;border-top:1px solid var(--rule)}
+.dgm .read b{color:var(--ink)}
+.tag{display:inline-block;font-size:11px;letter-spacing:.12em;font-weight:700;color:#fff;
+  background:var(--gold);padding:2px 8px;border-radius:4px;margin-right:7px;vertical-align:2px}
+
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0 18px}
+th,td{border-bottom:1px solid var(--rule);padding:10px 11px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12.5px;border-bottom:1.5px solid var(--line)}
+td.w{width:118px;color:var(--ink);font-weight:700}
+td.n{width:66px;color:var(--red);font-weight:800;text-align:center}
+tr.now td{background:#fff7e6}
+tr.now td.w{box-shadow:inset 3px 0 0 var(--red)}
+
+.ask{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:20px 24px;margin-top:10px}
+.ask h4{font-size:16px;font-weight:800;margin-bottom:8px}
+.ask ol{margin-bottom:0}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+@media (max-width:720px){h1{font-size:24px}.wrap{padding:30px 18px 70px}}
+@media print{body{background:#fff}.wrap{max-width:none;padding:0}.dgm,table,.ask,.box{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">기말 프로젝트 계획 · 데이터 시각화</p>
+  <h1>사주 — 점술이 아닌 개인화 시스템</h1>
+  <p class="dek"><b>이전 과제</b> — 외부 데이터에서 숨은 인사이트 찾기<br>
+    <b>이번 과제</b> — 내 메시지를 더 효과적으로 보여주는 자료 만들기<br>
+    <b>목표</b> — 박사논문의 핵심 주장 하나를 터프티의 방법으로 <b>한 장에 전달</b></p>
+  <p class="meta">학번 ________ · 이름 ________</p>
+</header>
+
+<h2>01 — 논문이 말하려는 것</h2>
+<div class="msg">
+  <div class="lab">메시지 한 문장</div>
+  <div class="one"><s>점성술·샤머니즘</s>이 아닌,
+    <em>천 년간 다듬어진 개인화 시스템</em> — 사람을 나누는 칸 <em>51만 8,400개</em></div>
+  <div class="lad">
+    <div>혈액형 <b>4</b></div>
+    <div>MBTI <b>16</b></div>
+    <div>MBTI 세부 <b>32</b></div>
+    <div class="hi">사주 원국 <b>518,400</b></div>
+    <div>+성별 <b>1,036,800</b></div>
+  </div>
+</div>
+<div class="box gold">
+  <h4>518,400 — 계산 근거</h4>
+  <div class="calc">
+천간 <b>10</b> · 지지 <b>12</b> &nbsp;→&nbsp; 둘이 함께 돌아 짝이 맞는 조합은 <b>60</b>
+&nbsp;<span style="font-size:12px">(60갑자 · 10과 12의 최소공배수)</span><br>
+<br>
+년주 <b>60</b> &nbsp;×&nbsp; 월 <b>12</b> &nbsp;×&nbsp; 일주 <b>60</b> &nbsp;×&nbsp; 시 <b>12</b>
+&nbsp;=&nbsp; <span class="big">518,400</span><br>
+성별 포함 시 &nbsp;× 2 =&nbsp; <b>1,036,800</b>
+  </div>
+  <ul>
+    <li><b>60갑자가 120이 아닌 이유</b> — 천간·지지가 한 칸씩 <b>같이</b> 움직임 ·
+      10과 12가 다시 맞물리는 지점이 60 → 가능한 짝은 120개 중 60개</li>
+    <li><b>월이 12가지인 이유</b> — 월지는 절기로 고정(寅월 = 입춘…) ·
+      월간은 <b>그 해 천간이 결정</b>(월두법) → 늘어나는 가짓수 없음</li>
+    <li><b>시가 12가지인 이유</b> — 시지는 2시간 단위 12토막 ·
+      시간은 <b>그 날 천간이 결정</b>(시두법) → 늘어나는 가짓수 없음</li>
+    <li><b>지도와의 관계</b> — (년주 60 × 월 12) = <b>720</b> · (일주 60 × 시 12) = <b>720</b>
+      → <b>720 × 720 격자</b></li>
+  </ul>
+</div>
+<div class="box red">
+  <h4>왜 이 메시지인가 — 전선의 이동</h4>
+  <ul>
+    <li><b>예상 질문</b> — "사주가 학술 주제로, 한류 콘텐츠로 타당한가"</li>
+    <li><b>지는 답</b> — "맞는 점술인가" · 과학적 진위는 증명 불가, 증명할 필요도 없음</li>
+    <li><b>바꾼 질문</b> — "얼마나 잘게, 얼마나 체계적으로 나누는 시스템인가"</li>
+    <li><b>바꾼 이유</b> — 셀 수 있고, 따라서 <b>그릴 수 있음</b></li>
+    <li><b>결론</b> — 정보디자인이 곧 논증의 도구. 이번 프로젝트 = 그 한 장</li>
+  </ul>
+</div>
+
+<h2>02 — 어떤 이론으로 만들 것인가</h2>
+<ul>
+  <li><b>이론</b> — 에드워드 터프티 『정보의 시각화(Envisioning Information, 1990)』</li>
+  <li><b>책의 문제</b> — "세상은 입체, 종이는 납작"</li>
+  <li><b>내 문제</b> — <b>사주는 네 기둥(4차원), 종이는 두 축</b> · 같은 문제</li>
+</ul>
+<table>
+  <thead><tr><th class="n">방법</th><th class="w">터프티</th><th>내 작업에서의 적용</th></tr></thead>
+  <tbody>
+    <tr><td class="n">①</td><td class="w">평면 탈출<br><span style="color:var(--muted);font-weight:400">Escaping Flatland</span></td>
+      <td>종이는 2차원, 정보는 그보다 높은 차원<br>
+        → <b>네 기둥(년·월·일·시)을 가로·세로 두 축으로 접기</b><br>
+        세로 = 년주×12＋월지 · 가로 = 일주×12＋시지</td></tr>
+    <tr class="now"><td class="n">②</td><td class="w">전체이자 디테일<br><span style="color:var(--muted);font-weight:400">Micro / Macro</span></td>
+      <td><b>이 프로젝트의 중심 이론</b><br>
+        멀리서 전체 패턴, 가까이서 낱낱의 세부<br>
+        → 멀리서 오행의 지형, <b>확대하면 한 사람의 여덟 글자</b><br>
+        → <b>"유형이 아니라 개인"을 그림의 동작으로 증명</b></td></tr>
+    <tr><td class="n">③</td><td class="w">층으로 나누기<br><span style="color:var(--muted);font-weight:400">Layering &amp; Separation</span></td>
+      <td>겹치되 서로 방해하지 않게<br>
+        → 격자(구조)·색(오행)·눈금(간지)·글자(원국) <b>네 개의 층</b></td></tr>
+    <tr><td class="n">④</td><td class="w">작게 여러 개<br><span style="color:var(--muted);font-weight:400">Small Multiples</span></td>
+      <td>같은 틀의 반복 → 비교 — 터프티의 <b>"무엇과 비교하는가"</b><br>
+        → 색 기준을 바꾼 작은 지도를 나란히<br>
+        → <b>같은 51만 개를 네 가지 눈으로</b></td></tr>
+    <tr><td class="n">⑤</td><td class="w">색과 시간<br><span style="color:var(--muted);font-weight:400">Color &amp; Narrative</span></td>
+      <td>색 = 장식이 아니라 데이터<br>
+        → <b>전통 오방색</b>(청·적·황·백·흑) 그대로 사용<br>
+        → 색 자체가 사주 체계의 일부 · 임의적 선택 아님</td></tr>
+  </tbody>
+</table>
+<h2>03 — 다이어그램 시안</h2>
+
+<div class="dgm">
+  <h4><span class="tag">시안 ①</span>논증 다섯 걸음 — 전제에서 결론까지</h4>
+  <svg viewBox="0 0 1060 250" role="img" aria-label="논증 다섯 걸음 흐름 다이어그램 시안">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b5ab99"/>
+      </marker>
+    </defs>
+    <g font-family="inherit">
+      <text x="6" y="24" font-size="12" fill="#8b8378">글로 네 문단 → 한 줄로 · 읽는 순서 = 논증의 순서</text>
+      <rect x="6" y="46" width="186" height="128" rx="10" fill="#fff" stroke="#cfc5b2"/>
+      <text x="20" y="70" font-size="11" font-weight="700" fill="#b3261e" letter-spacing="1.4">전제</text>
+      <text x="20" y="94" font-size="14" font-weight="700" fill="#191714">유형론 콘텐츠</text>
+      <text x="20" y="117" font-size="12.5" fill="#4d4842">이미 거대한 장르</text>
+      <text x="20" y="135" font-size="12.5" fill="#4d4842">융 → MBTI의 계보</text>
+      <text x="20" y="160" font-size="12" fill="#8b8378">혈액형 57% · MBTI 청년 90%</text>
+      <line x1="196" y1="110" x2="222" y2="110" stroke="#b5ab99" stroke-width="1.6" marker-end="url(#ar)"/>
+
+      <rect x="226" y="46" width="186" height="128" rx="10" fill="#fff" stroke="#cfc5b2"/>
+      <text x="240" y="70" font-size="11" font-weight="700" fill="#b3261e" letter-spacing="1.4">원리</text>
+      <text x="240" y="94" font-size="14" font-weight="700" fill="#191714">동일한 문법</text>
+      <text x="240" y="118" font-size="12" fill="#4d4842">입력 → 분류 →</text>
+      <text x="240" y="136" font-size="12" fill="#4d4842">해석 → 공유</text>
+      <text x="240" y="160" font-size="12" fill="#8b8378">= 개인화 시스템</text>
+      <line x1="416" y1="110" x2="442" y2="110" stroke="#b5ab99" stroke-width="1.6" marker-end="url(#ar)"/>
+
+      <rect x="446" y="46" width="186" height="128" rx="10" fill="#fff" stroke="#cfc5b2"/>
+      <text x="460" y="70" font-size="11" font-weight="700" fill="#b3261e" letter-spacing="1.4">편입</text>
+      <text x="460" y="94" font-size="14" font-weight="700" fill="#191714">사주도 유형론</text>
+      <text x="460" y="118" font-size="12.5" fill="#4d4842">생년월일시 → 간지</text>
+      <text x="460" y="136" font-size="12.5" fill="#4d4842">→ 해석 → 공유</text>
+      <text x="460" y="160" font-size="12" fill="#8b8378">점술이 아니라 분류 체계</text>
+      <line x1="636" y1="110" x2="662" y2="110" stroke="#b5ab99" stroke-width="1.6" marker-end="url(#ar)"/>
+
+      <rect x="666" y="34" width="196" height="152" rx="10" fill="#fff6f5" stroke="#b3261e" stroke-width="2"/>
+      <text x="681" y="60" font-size="11" font-weight="700" fill="#b3261e" letter-spacing="1.4">차별 — 이 논문의 기여</text>
+      <text x="681" y="86" font-size="14" font-weight="700" fill="#191714">해상도의 차이</text>
+      <text x="681" y="118" font-size="27" font-weight="800" fill="#b3261e" letter-spacing="-1">518,400</text>
+      <text x="681" y="140" font-size="12.5" fill="#4d4842">MBTI 세부형(32)의</text>
+      <text x="681" y="158" font-size="12.5" fill="#4d4842">약 <tspan font-weight="700" fill="#191714">16,200배</tspan></text>
+      <text x="681" y="176" font-size="12" fill="#8b8378">'유형'이 아니라 '개인'</text>
+      <line x1="866" y1="110" x2="892" y2="110" stroke="#b5ab99" stroke-width="1.6" marker-end="url(#ar)"/>
+
+      <rect x="896" y="46" width="158" height="128" rx="10" fill="#191714"/>
+      <text x="910" y="70" font-size="11" font-weight="700" fill="#d9b65a" letter-spacing="1.4">결론</text>
+      <text x="910" y="96" font-size="14" font-weight="700" fill="#fff">최적 재료</text>
+      <text x="910" y="120" font-size="12" fill="#cfc5b2">검증된 대중성</text>
+      <text x="910" y="137" font-size="12" fill="#cfc5b2">＋ 압도적 해상도</text>
+      <text x="910" y="162" font-size="12" fill="#d9b65a">= '나만을 위한' 체험</text>
+
+      <path d="M764 190V218" fill="none" stroke="#b3261e" stroke-dasharray="4 3" stroke-width="1.4" marker-end="url(#ar)"/>
+      <text x="754" y="240" font-size="12.5" font-weight="700" fill="#b3261e" text-anchor="middle">이 한 칸의 증명 = 최종 결과물</text>
+    </g>
+  </svg>
+</div>
+
+<div class="dgm">
+  <h4><span class="tag">시안 ②</span>같은 칸 크기로 그린 개인화 해상도</h4>
+  <div class="cap">칸 하나 = 유형 하나 · 같은 축척으로 놓으면 사주만 종이를 벗어남</div>
+  <svg viewBox="0 0 1060 300" role="img" aria-label="혈액형 4, MBTI 16, MBTI 세부 32, 사주 518400 해상도 비교 시안">
+    <defs>
+      <linearGradient id="fade" x1="0" x2="1">
+        <stop offset="0.55" stop-color="#fff" stop-opacity="1"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <mask id="mk"><rect x="0" y="0" width="1060" height="300" fill="url(#fade)"/></mask>
+      <pattern id="grid" width="13" height="13" patternUnits="userSpaceOnUse">
+        <rect width="13" height="13" fill="#f3efe4" stroke="#cfc5b2" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <text x="6" y="24" font-size="13" font-weight="700" fill="#191714">혈액형</text>
+    <text x="76" y="24" font-size="13" font-weight="800" fill="#b3261e">4</text>
+    <g transform="translate(6,36)"><rect width="26" height="26" fill="url(#grid)"/></g>
+
+    <text x="6" y="100" font-size="13" font-weight="700" fill="#191714">MBTI</text>
+    <text x="76" y="100" font-size="13" font-weight="800" fill="#b3261e">16</text>
+    <g transform="translate(6,112)"><rect width="52" height="52" fill="url(#grid)"/></g>
+
+    <text x="128" y="100" font-size="13" font-weight="700" fill="#191714">MBTI 세부</text>
+    <text x="212" y="100" font-size="13" font-weight="800" fill="#b3261e">32</text>
+    <g transform="translate(128,112)"><rect width="104" height="52" fill="url(#grid)"/></g>
+
+    <text x="6" y="208" font-size="13" font-weight="700" fill="#191714">사주 원국</text>
+    <text x="92" y="208" font-size="13" font-weight="800" fill="#b3261e">518,400</text>
+    <text x="176" y="208" font-size="12" fill="#8b8378">— 720칸 × 720칸</text>
+    <g mask="url(#mk)"><rect x="6" y="220" width="1050" height="74" fill="url(#grid)"/></g>
+    <path d="M6 214H1040" stroke="#b3261e" stroke-dasharray="5 4" stroke-width="1.2" opacity=".55"/>
+    <text x="700" y="252" font-size="14" font-weight="800" fill="#b3261e">… 가로 720칸 — 종이 밖으로</text>
+    <text x="700" y="274" font-size="12.5" fill="#4d4842">한 칸 5mm → <tspan font-weight="700" fill="#191714">한 변 3.6m</tspan> · 강의실 벽 하나</text>
+    <text x="700" y="292" font-size="12.5" fill="#4d4842">A4 한 장에 넣으려면 한 칸 <tspan font-weight="700" fill="#191714">0.3mm</tspan></text>
+  </svg>
+  <div class="read"><b>의도</b> — "518,400가지" = 글로는 그냥 큰 수 ·
+    혈액형·MBTI는 <b>한눈에 전부</b>, 사주는 같은 축척으로 <b>한 장에 담기지 않음</b>
+    → <b>"그래서 접어야 한다"</b>는 필요의 발생 · 접은 결과 = 최종 결과물</div>
+</div>
+
+<h2>04 — 색과 글자가 지도가 되기까지</h2>
+
+<div class="dgm">
+  <h4><span class="tag">시안 ③</span>오행 다섯 색 → 여덟 글자 → 51만 칸</h4>
+  <svg viewBox="0 0 1060 856" role="img" aria-label="오행 다섯 색이 여덟 글자를 거쳐 51만 칸의 지도가 되기까지">
+    <circle cx="26" cy="21" r="11" fill="#b3261e"/>
+    <text x="26" y="26" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">1</text>
+    <text x="48" y="26" font-size="14.5" font-weight="800" fill="#191714">바탕 — 오행은 다섯, 색도 다섯</text>
+    <rect x="20" y="44" width="188" height="62" rx="9" fill="#3f8f5a"/>
+    <text x="36" y="72" font-size="23" font-weight="700" fill="#fff">木</text>
+    <text x="66" y="72" font-size="15" font-weight="700" fill="#fff">목</text>
+    <text x="36" y="93" font-size="12" font-weight="400" fill="#fff" opacity=".88">청(靑)</text>
+    <rect x="228" y="44" width="188" height="62" rx="9" fill="#c8372d"/>
+    <text x="244" y="72" font-size="23" font-weight="700" fill="#fff">火</text>
+    <text x="274" y="72" font-size="15" font-weight="700" fill="#fff">화</text>
+    <text x="244" y="93" font-size="12" font-weight="400" fill="#fff" opacity=".88">적(赤)</text>
+    <rect x="436" y="44" width="188" height="62" rx="9" fill="#d9a520"/>
+    <text x="452" y="72" font-size="23" font-weight="700" fill="#191714">土</text>
+    <text x="482" y="72" font-size="15" font-weight="700" fill="#191714">토</text>
+    <text x="452" y="93" font-size="12" font-weight="400" fill="#191714" opacity=".88">황(黃)</text>
+    <rect x="644" y="44" width="188" height="62" rx="9" fill="#a9adb6"/>
+    <text x="660" y="72" font-size="23" font-weight="700" fill="#191714">金</text>
+    <text x="690" y="72" font-size="15" font-weight="700" fill="#191714">금</text>
+    <text x="660" y="93" font-size="12" font-weight="400" fill="#191714" opacity=".88">백(白)</text>
+    <rect x="852" y="44" width="188" height="62" rx="9" fill="#1f2430"/>
+    <text x="868" y="72" font-size="23" font-weight="700" fill="#fff">水</text>
+    <text x="898" y="72" font-size="15" font-weight="700" fill="#fff">수</text>
+    <text x="868" y="93" font-size="12" font-weight="400" fill="#fff" opacity=".88">흑(黑)</text>
+    <text x="20" y="126" font-size="12.5" font-weight="400" fill="#8b8378">전통 오방색을 그대로 쓴다 — 색을 새로 고르지 않음</text>
+    <circle cx="26" cy="163" r="11" fill="#b3261e"/>
+    <text x="26" y="168" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">2</text>
+    <text x="48" y="168" font-size="14.5" font-weight="800" fill="#191714">기둥 하나 = 천간 1 + 지지 1 = 두 글자</text>
+    <rect x="20" y="196" width="76" height="76" rx="9" fill="#d9a520"/>
+    <text x="58.0" y="235.52" font-size="30" font-weight="700" fill="#191714" text-anchor="middle">己</text>
+    <text x="58.0" y="259.84" font-size="12.5" font-weight="600" fill="#191714" text-anchor="middle">토(土)</text>
+    <text x="58.0" y="188" font-size="12" font-weight="700" fill="#8b8378" text-anchor="middle">천간</text>
+    <text x="112" y="242" font-size="22" font-weight="800" fill="#b5ab99">+</text>
+    <rect x="134" y="196" width="76" height="76" rx="9" fill="#c8372d"/>
+    <text x="172.0" y="235.52" font-size="30" font-weight="700" fill="#fff" text-anchor="middle">巳</text>
+    <text x="172.0" y="259.84" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle">화(火)</text>
+    <text x="172.0" y="188" font-size="12" font-weight="700" fill="#8b8378" text-anchor="middle">지지</text>
+    <text x="228" y="242" font-size="22" font-weight="800" fill="#b5ab99">=</text>
+    <rect x="250" y="190" width="120" height="88" rx="10" fill="#fff" stroke="#cfc5b2" stroke-width="1.6"/>
+    <text x="310" y="224" font-size="26" font-weight="700" fill="#191714" text-anchor="middle">己巳</text>
+    <text x="310" y="250" font-size="12.5" font-weight="600" fill="#8b8378" text-anchor="middle">기둥 하나</text>
+    <text x="400" y="214" font-size="13" font-weight="700" fill="#191714">글자마다 오행이 하나씩 정해져 있음</text>
+    <text x="400" y="238" font-size="13" font-weight="700" fill="#b3261e">→ 글자 하나 = 색 하나</text>
+    <text x="400" y="262" font-size="12.5" font-weight="400" fill="#4d4842">→ 기둥 하나 = 색 두 개</text>
+    <circle cx="26" cy="315" r="11" fill="#b3261e"/>
+    <text x="26" y="320" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">3</text>
+    <text x="48" y="320" font-size="14.5" font-weight="800" fill="#191714">사주 하나 = 네 기둥 = 여덟 글자</text>
+    <text x="82" y="352" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">년주</text>
+    <rect x="20" y="362" width="58" height="58" rx="8" fill="#d9a520"/>
+    <text x="49" y="392" font-size="24" font-weight="700" fill="#191714" text-anchor="middle">己</text>
+    <text x="49" y="412" font-size="11.5" font-weight="600" fill="#191714" text-anchor="middle">토</text>
+    <rect x="86" y="362" width="58" height="58" rx="8" fill="#c8372d"/>
+    <text x="115" y="392" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">巳</text>
+    <text x="115" y="412" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle">화</text>
+    <text x="230" y="352" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">월주</text>
+    <rect x="168" y="362" width="58" height="58" rx="8" fill="#d9a520"/>
+    <text x="197" y="392" font-size="24" font-weight="700" fill="#191714" text-anchor="middle">戊</text>
+    <text x="197" y="412" font-size="11.5" font-weight="600" fill="#191714" text-anchor="middle">토</text>
+    <rect x="234" y="362" width="58" height="58" rx="8" fill="#d9a520"/>
+    <text x="263" y="392" font-size="24" font-weight="700" fill="#191714" text-anchor="middle">辰</text>
+    <text x="263" y="412" font-size="11.5" font-weight="600" fill="#191714" text-anchor="middle">토</text>
+    <text x="378" y="352" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">일주</text>
+    <rect x="316" y="362" width="58" height="58" rx="8" fill="#1f2430"/>
+    <text x="345" y="392" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">壬</text>
+    <text x="345" y="412" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle">수</text>
+    <rect x="382" y="362" width="58" height="58" rx="8" fill="#c8372d"/>
+    <text x="411" y="392" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">午</text>
+    <text x="411" y="412" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle">화</text>
+    <text x="526" y="352" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">시주</text>
+    <rect x="464" y="362" width="58" height="58" rx="8" fill="#3f8f5a"/>
+    <text x="493" y="392" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">甲</text>
+    <text x="493" y="412" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle">목</text>
+    <rect x="530" y="362" width="58" height="58" rx="8" fill="#d9a520"/>
+    <text x="559" y="392" font-size="24" font-weight="700" fill="#191714" text-anchor="middle">辰</text>
+    <text x="559" y="412" font-size="11.5" font-weight="600" fill="#191714" text-anchor="middle">토</text>
+    <rect x="620" y="352" width="420" height="74" rx="10" fill="#f7f3ea" stroke="#cfc5b2"/>
+    <text x="636" y="374" font-size="12.5" font-weight="700" fill="#191714">색을 세면</text>
+    <rect x="636" y="386" width="22" height="22" rx="5" fill="#d9a520"/>
+    <text x="666" y="402" font-size="13" font-weight="800" fill="#b3261e">토 4</text>
+    <rect x="714" y="386" width="22" height="22" rx="5" fill="#c8372d"/>
+    <text x="744" y="402" font-size="13" font-weight="500" fill="#8b8378">화 2</text>
+    <rect x="792" y="386" width="22" height="22" rx="5" fill="#3f8f5a"/>
+    <text x="822" y="402" font-size="13" font-weight="500" fill="#8b8378">목 1</text>
+    <rect x="870" y="386" width="22" height="22" rx="5" fill="#1f2430"/>
+    <text x="900" y="402" font-size="13" font-weight="500" fill="#8b8378">수 1</text>
+    <rect x="948" y="386" width="22" height="22" rx="5" fill="#a9adb6" opacity=".3"/>
+    <text x="978" y="402" font-size="13" font-weight="500" fill="#8b8378">금 0</text>
+    <text x="636" y="420" font-size="11" font-weight="400" fill="#4d4842"></text>
+    <text x="1024" y="374" font-size="12" font-weight="700" fill="#b3261e" text-anchor="end">토가 가장 많음 → 멀리서 볼 때의 요약색은 노랑</text>
+    <circle cx="26" cy="465" r="11" fill="#b3261e"/>
+    <text x="26" y="470" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">4</text>
+    <text x="48" y="470" font-size="14.5" font-weight="800" fill="#191714">그래서 경우의 수가 51만 8,400</text>
+    <rect x="20" y="490" width="1020" height="92" rx="10" fill="#f3efe4"/>
+    <text x="94" y="514" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">년주</text>
+    <text x="94" y="548" font-size="30" font-weight="800" fill="#191714" text-anchor="middle">60</text>
+    <text x="94" y="570" font-size="11.5" font-weight="400" fill="#8b8378" text-anchor="middle">60갑자</text>
+    <text x="168" y="544" font-size="20" font-weight="800" fill="#b5ab99" text-anchor="middle">×</text>
+    <text x="242" y="514" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">월</text>
+    <text x="242" y="548" font-size="30" font-weight="800" fill="#191714" text-anchor="middle">12</text>
+    <text x="242" y="570" font-size="11.5" font-weight="400" fill="#8b8378" text-anchor="middle">절기 12달</text>
+    <text x="316" y="544" font-size="20" font-weight="800" fill="#b5ab99" text-anchor="middle">×</text>
+    <text x="390" y="514" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">일주</text>
+    <text x="390" y="548" font-size="30" font-weight="800" fill="#191714" text-anchor="middle">60</text>
+    <text x="390" y="570" font-size="11.5" font-weight="400" fill="#8b8378" text-anchor="middle">60갑자</text>
+    <text x="464" y="544" font-size="20" font-weight="800" fill="#b5ab99" text-anchor="middle">×</text>
+    <text x="538" y="514" font-size="12.5" font-weight="700" fill="#8b8378" text-anchor="middle">시</text>
+    <text x="538" y="548" font-size="30" font-weight="800" fill="#191714" text-anchor="middle">12</text>
+    <text x="538" y="570" font-size="11.5" font-weight="400" fill="#8b8378" text-anchor="middle">2시간 12토막</text>
+    <text x="664" y="544" font-size="22" font-weight="800" fill="#b3261e" text-anchor="middle">=</text>
+    <text x="700" y="552" font-size="38" font-weight="800" fill="#b3261e">518,400</text>
+    <text x="900" y="528" font-size="12" font-weight="400" fill="#8b8378">천간 10 · 지지 12가 함께 돌아</text>
+    <text x="900" y="548" font-size="12" font-weight="400" fill="#8b8378">짝이 맞는 조합은 60 (60갑자)</text>
+    <text x="900" y="570" font-size="12" font-weight="700" fill="#4d4842">성별 포함 시 × 2 = 1,036,800</text>
+    <circle cx="26" cy="619" r="11" fill="#b3261e"/>
+    <text x="26" y="624" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">5</text>
+    <text x="48" y="624" font-size="14.5" font-weight="800" fill="#191714">지도에는 이렇게 들어간다 — 여덟 글자를 그대로 둔다</text>
+    <rect x="20" y="644" width="1020" height="196" rx="10" fill="#fff" stroke="#cfc5b2"/>
+    <text x="40" y="672" font-size="12.5" font-weight="700" fill="#191714">확대하면 — 한 칸 = 여덟 글자 그대로</text>
+    <text x="121.0" y="694" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="middle">시</text>
+    <text x="171.0" y="694" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="middle">일</text>
+    <text x="221.0" y="694" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="middle">월</text>
+    <text x="271.0" y="694" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="middle">년</text>
+    <text x="88" y="730.0" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="end">천간</text>
+    <rect x="96" y="700" width="48" height="48" rx="5" fill="#3f8f5a"/>
+    <text x="120.0" y="732" font-size="21" font-weight="700" fill="#fff" text-anchor="middle">甲</text>
+    <rect x="146" y="700" width="48" height="48" rx="5" fill="#1f2430"/>
+    <text x="170.0" y="732" font-size="21" font-weight="700" fill="#fff" text-anchor="middle">壬</text>
+    <rect x="196" y="700" width="48" height="48" rx="5" fill="#d9a520"/>
+    <text x="220.0" y="732" font-size="21" font-weight="700" fill="#191714" text-anchor="middle">戊</text>
+    <rect x="246" y="700" width="48" height="48" rx="5" fill="#d9a520"/>
+    <text x="270.0" y="732" font-size="21" font-weight="700" fill="#191714" text-anchor="middle">己</text>
+    <text x="88" y="780.0" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="end">지지</text>
+    <rect x="96" y="750" width="48" height="48" rx="5" fill="#d9a520"/>
+    <text x="120.0" y="782" font-size="21" font-weight="700" fill="#191714" text-anchor="middle">辰</text>
+    <rect x="146" y="750" width="48" height="48" rx="5" fill="#c8372d"/>
+    <text x="170.0" y="782" font-size="21" font-weight="700" fill="#fff" text-anchor="middle">午</text>
+    <rect x="196" y="750" width="48" height="48" rx="5" fill="#d9a520"/>
+    <text x="220.0" y="782" font-size="21" font-weight="700" fill="#191714" text-anchor="middle">辰</text>
+    <rect x="246" y="750" width="48" height="48" rx="5" fill="#c8372d"/>
+    <text x="270.0" y="782" font-size="21" font-weight="700" fill="#fff" text-anchor="middle">巳</text>
+    <text x="196" y="822" font-size="11.5" font-weight="600" fill="#8b8378" text-anchor="middle">4 × 2 — 전통 명식은 시·일·월·년 순으로 적는다</text>
+    <path d="M318 750h44" stroke="#b5ab99" stroke-width="2" marker-end="url(#ar)" fill="none"/>
+    <text x="340" y="738" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="middle">축소</text>
+    <rect x="378" y="736" width="28" height="28" rx="4" fill="#d9a520"/>
+    <text x="392" y="784" font-size="11.5" font-weight="700" fill="#8b8378" text-anchor="middle">1배</text>
+    <text x="392" y="800" font-size="11" font-weight="400" fill="#8b8378" text-anchor="middle">0.98px</text>
+    <text x="448" y="688" font-size="13.5" font-weight="700" fill="#191714">기본 — 여덟 글자를 끝까지 여덟 글자로 둔다</text>
+    <text x="448" y="712" font-size="12.5" font-weight="400" fill="#4d4842">한 칸 = 4 × 2 미니 명식 · 전체 2,880 × 1,440</text>
+    <text x="448" y="736" font-size="12.5" font-weight="700" fill="#b3261e">= 4,147,200 — 픽셀 하나 = 글자 하나 · 줄이는 것 없음</text>
+    <text x="448" y="768" font-size="12.5" font-weight="400" fill="#4d4842">1배로 줄이면 픽셀이 모자라 저절로 뭉개진다</text>
+    <text x="448" y="790" font-size="12.5" font-weight="400" fill="#4d4842">→ 그때만 가장 많은 오행 색으로 요약 (여기서만 색이 하나)</text>
+    <text x="448" y="816" font-size="12.5" font-weight="700" fill="#191714">두 장의 지도가 아니라, 한 장이 거리에 따라 다르게 보이는 것</text>
+  </svg>
+  <div class="read"><b>이 다섯 단계가 설계의 전부</b> — 색을 고르는 단계도, <b>데이터를 줄이는 단계도 없다.</b>
+    오행에 색이 이미 붙어 있고 글자마다 오행이 정해져 있으므로 <b>사주를 넣으면 색이 저절로 나오고,
+    여덟 글자는 끝까지 여덟 글자로 남는다.</b>
+    요약색은 1배에서 픽셀이 모자랄 때 생기는 <b>결과</b>일 뿐, 설계 단계에서 버리는 것이 아니다.</div>
+</div>
+
+<div class="box red">
+  <h4>만들어 둔 지도 — 직접 보기</h4>
+  <ul>
+    <li><b>기본 모드</b> — 「여덟 글자 그대로」 · 확대하면 칸마다 4 × 2 명식이 제 색으로</li>
+    <li><b>비교 모드</b> — 「가장 많은 오행」(요약색) · 「일간 오행」(세로 줄무늬만) · 「한 오행의 개수」</li>
+    <li><b>조작</b> — 휠로 확대 · 끌어서 이동 · 칸에 마우스를 올리면 그 사주가 오른쪽에 뜸 · 클릭하면 고정</li>
+  </ul>
+  <p style="margin-top:10px"><a href="https://gypog5122-cell.github.io/saju-map/map.html" target="_blank" rel="noopener"><b>gypog5122-cell.github.io/saju-map/map.html</b></a></p>
+</div>
+
+<footer>
+  <p><b>수치 근거</b> — 혈액형 성격설 신뢰 57%(한국갤럽) · 19~28세 MBTI 검사 경험 약 90%(한국리서치) ·
+    사주 경우의 수 518,400(천간 10·지지 12, 월두법·시두법 반영 → 60×12×60×12).</p>
+  <p style="margin-top:5px"><b>이론 근거</b> — Edward Tufte, <i>Envisioning Information</i>(Graphics Press, 1990) —
+    평면 탈출 · 전체이자 디테일 · 층으로 나누기 · 작게 여러 개 · 색과 시간.
+    참조 사례 — 샤를 미나르, 러시아 침공 다이어그램(1869).</p>
+</footer>
+
+</div>
+</body>
+</html>
